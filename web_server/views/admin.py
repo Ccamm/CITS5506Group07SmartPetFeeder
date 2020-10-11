@@ -23,7 +23,7 @@ def create_feeder(post_data):
 @admin_blueprint.route("/admin", methods=["GET", "POST"])
 def admin():
     """
-    Top Secret page for creating new admin accounts.
+    Top Secret page for creating new pet feeders.
     """
     if not utils.is_logged_in(session) and not session.get("role", "Users") == "Admin":
         abort(404)
