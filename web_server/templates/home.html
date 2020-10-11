@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block header %}{% include 'header.html' %}{% endblock %}
+
+{% block nav %}
+  <ul class="links">
+    <li class="active"><a href="/home">Home</a></li>
+    <li><a href="/add_feeder">Add Pet Feeder</a></li>
+    <li><a href="/logout">Logout</a></li>
+  </ul>
+{% endblock %}
+
+{% block content%}
+  <div class="center">
+    <!-- Welcome Message -->
+      <header class="major">
+        <h1>Welcome {{ username }}!</h1>
+        <p>We have been watching over your pets making sure they are fed! <br />
+          Here is the information that we collected about your pet's eating habits</p>
+      </header>
+
+    <!-- Feeder Overview: Graphs, Drop Food and Change Schedule -->
+    {% for feeder_id in feeders %}
+      <header class="major">
+        <h3>Pet Feeder: {{ feeders[feeder_id]['name'] }}</h3>
+        <p>{{ feeders[feeder_id]['status'] }}</p>
+        <canvas id="{{ feeder_id }}" width="auto" height="auto"></canvas>
+        <a href="/schedule?id={{ feeder_id }}" class="button fit">Change Schedule</a>
+        <a href="/drop?id={{ feeder_id }}" class="button fit primary">Drop Food Now</a>
+      </header>
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="assets/js/Chart.bundle.js"></script>
+<script>
+{% for feeder_id in feeders %}
+  var ctx = document.getElementById('{{ feeder_id }}').getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          datasets: [{
+              label: 'Food Eaten',
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              data: {{ feeders[feeder_id]['data']|tojson }}
+          }]
+      },
+      options: {
+          responsive : true,
+          scales: {
+    					xAxes: [{
+      						type: 'time',
+      						display: true,
+      						scaleLabel: {
+      							  display: true,
+      							  labelString: 'Date'
+      						},
+    						ticks: {
+    							major: {
+    								fontStyle: 'bold',
+    								fontColor: '#FF0000'
+    							}
+    						}
+    					}],
+    					yAxes: [{
+    						display: true,
+    						scaleLabel: {
+    							display: true,
+    							labelString: 'Food Eaten in Grams'
+    				}
+    			}]
+    		}
+      }
+  });
+{% endfor %}
+</script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block header %}{% include 'header.html' %}{% endblock %}
+
+{% block nav %}
+  <ul class="links">
+    <li><a href="/home">Home</a></li>
+  </ul>
+{% endblock %}
+
+{% block content%}
+  <div class="center">
+    <ul class="actions stacked">
+      <h3>Add New Pet Feeder</h3>
+      <form method="post">
+        <li><input type="text" class="button" placeholder="New Product Key" name="key" value="{{ request.form.key }}"></li>
+        <li><input type="password" class="button" placeholder="New Product Password" name="password" value="{{ request.form.password }}"></li>
+        <li><input type="submit" class="button primary" value="Add Feeder"></li>
+      </form>
+    </ul>
+
+  </div>
+{% endblock %}

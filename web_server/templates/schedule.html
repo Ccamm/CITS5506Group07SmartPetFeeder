@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block title %}Change Schedule{% endblock %}
+
+{% block header %}{% include 'header.html' %}{% endblock %}
+
+{% block nav %}
+  <ul class="links">
+    <li><a href="/home">Home</a></li>
+    <li><a href="/add_feeder">Add Pet Feeder</a></li>
+    <li><a href="/logout">Logout</a></li>
+  </ul>
+{% endblock %}
+
+{% block content%}
+  <ul class="actions stacked">
+    <li><header class="major"><h2>Change Schedule for {{ feeder_name }}</h2></header></li>
+    <li><header class="major"><h3>Add a New Schedule</h3></header></li>
+    <li><form>
+      <select name="schedule_type" id="schedule_type" class="fit">
+        <option value="daily">Daily Schedule</option>
+        <option value="weekly">Weekly Schedule</option>
+      </select>
+    </form></li>
+  </ul>
+
+  <ul class="actions stacked">
+    <form method="post" name="daily" id='daily' class="daily dropdown_form">
+      <li><header class="major"><h3>Time to Drop Food Daily</h3></header></li>
+      <li><input type="time" id="time_daily" class="button fit"
+        placeholder="Time To Drop Food Each Day" name="time_daily"
+        min="00:00" max="23:59" value="12:00"></li>
+      <li><input type="submit" class="button primary fit" value="Add Daily Schedule"></li>
+    </form>
+  </ul>
+
+  <ul class="actions stacked">
+    <form method="post" name="daily" id='daily' class="weekly dropdown_form">
+      <li><header class="major"><h3>Time to Drop Food Each Week</h3></header><li>
+      <li>
+        <h4>Monday</h4>
+        <input type="time" id="time_monday" class="button fit" name="time_monday"
+          min="00:00" max="23:59" value="09:00">
+      </li>
+      <li>
+        <h4>Tuesday</h4>
+        <input type="time" id="repeated" class="button fit" name="time_tuesday"
+          value="09:00" min="00:00" max="23:59">
+      </li>
+      <li>
+        <h4>Wednesday</h4>
+        <input type="time" id="repeated" class="button fit" name="time_wednesday"
+          value="09:00" min="00:00" max="23:59">
+      </li>
+      <li>
+        <h4>Thursday</h4>
+        <input type="time" id="repeated" class="button fit" name="time_thursday"
+          value="09:00" min="00:00" max="23:59">
+      </li>
+      <li>
+        <h4>Friday</h4>
+        <input type="time" id="repeated" class="button fit" name="time_friday"
+          value="09:00" min="00:00" max="23:59">
+      </li>
+      <li>
+        <h4>Saturday</h4>
+        <input type="time" id="repeated" class="button fit" name="time_saturday"
+          value="09:00" min="00:00" max="23:59">
+      </li>
+      <li>
+        <h4>Sunday</h4>
+        <input type="time" id="repeated" class="button fit" name="time_sunday"
+          value="09:00" min="00:00" max="23:59">
+      </li>
+      <li>
+        <input type="submit" class="button primary fit" value="Add Weekly Schedule">
+      </li>
+    </form>
+  </ul>
+
+  <ul class="actions stacked">
+    {% if daily_schedules|length > 0 or weekly_schedules|length > 0 %}
+      <li><header class="major"><h3>Delete a Schedule</h3></header></li>
+    {% endif %}
+
+    {% if daily_schedules is defined %}
+      {% for sched in daily_schedules %}
+        <li>
+          <a href="/delete_schedule?id={{ request.args['id'] }}&type=R&time={{ sched['time'] | urlencode }}"
+            class = "button primary fit">Delete Daily Schedule at {{ sched["time"] }}</a>
+        </li>
+      {% endfor %}
+    {% endif %}
+
+    {% if weekly_schedules is defined %}
+      {% for sched in weekly_schedules %}
+        <li>
+          <a href="/delete_schedule?id={{ request.args['id'] }}&type=W&day={{ sched['day'] }}&time={{ sched['time'] | urlencode }}"
+            class = "button primary fit">Delete Schedule on {{ sched["day"] }} at {{ sched["time"] }}</a>
+        </li>
+      {% endfor %}
+    {% endif %}
+  </ul>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function(){
+  $("select").change(function(){
+    $(this).find("option:selected").each(function(){
+        var optionValue = $(this).attr("value");
+        if(optionValue){
+            $(".dropdown_form").not("." + optionValue).hide();
+            $("." + optionValue).show();
+        } else{
+            $(".dropdown_form").hide();
+        }
+    });
+  }).change();
+});
+</script>
+{% endblock %}

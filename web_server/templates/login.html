@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block header %}{% include 'header.html' %}{% endblock %}
+
+{% block nav %}
+  <ul class="links">
+    <li><a href="/">Home</a></li>
+    <li class="active"><a href="login">Login</a></li>
+    <li><a href="register">Sign Up</a></li>
+  </ul>
+{% endblock %}
+
+{% block content%}
+  <div class="center">
+    <header class="major"><h1>Login</h1></header>
+    <ul class="actions stacked">
+      <form method="post">
+        <li><input type="text" class="button fit" placeholder="Username" name="username" value="{{ request.form.username }}"></li>
+        <li><input type="password" class="button fit" placeholder="Password" name="password" value="{{ request.form.password }}"></li>
+        <li><input type="submit" class="button primary fit" value="Login"></li>
+      </form>
+    </ul>
+
+  </div>
+{% endblock %}

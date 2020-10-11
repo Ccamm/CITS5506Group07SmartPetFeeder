@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Feeder{% endblock %}
+
+{% block header %}{% include 'header.html' %}{% endblock %}
+
+{% block nav %}
+  <ul class="links">
+    <li><a href="/home">Home</a></li>
+    <li class="active"><a href="/add_feeder">Add Feeder</a></li>
+    <li><a href="/logout">Logout</a></li>
+  </ul>
+{% endblock %}
+
+{% block content%}
+  <div class="center">
+    <header class="major"><h1>Add Pet Feeder</h1></header>
+    <ul class="actions stacked">
+      <form method="post">
+        <li><input type="text" class="button fit" placeholder="Pet Feeder Product Key" name="key" value="{{ request.form.key }}"></li>
+        <li><input type="password" class="button primary fit" placeholder="Pet Feeder Authentication Key" name="password" value="{{ request.form.password }}"></li>
+        <li><input type="text" class="button fit" placeholder="Name for the Pet Feeder" name="name" value="{{ request.form.name }}"></li>
+        <li><input type="text" class="button primary fit" placeholder="Description for the Pet Feeder" name="desc" value="{{ request.form.desc }}"></li>
+        <li>
+          <input type="checkbox" id="success" name="success" value="{{ request.form.success }}">
+          <label for="success">Notify you when the food has dropped successfully.</label>
+          <input type="checkbox" id="failure" name="failure" value="{{ request.form.failure }}">
+          <label for="failure">Notify you when the food was not able to drop.</label>
+        </li>
+        <li><input type="submit" class="button primary fit" value="Add Feeder"></li>
+      </form>
+    </ul>
+
+  </div>
+{% endblock %}
